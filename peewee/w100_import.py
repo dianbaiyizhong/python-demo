@@ -28,7 +28,7 @@ class Book(BaseModel):
 database.connect()
 
 data_list = list()
-for index in range(100000):
-    data_list.append(model_to_dict(Book(id=index, title="三体一---", author="<NAME>")))
+for index in range(100):
+    data_list.append(model_to_dict(Book(title="三体一---", author="key" + str(index))))
 
 Book.insert_many(data_list).execute()

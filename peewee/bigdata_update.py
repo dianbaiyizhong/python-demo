@@ -14,10 +14,14 @@ class BaseModel(Model):
     class Meta:
         database = database
 
+class BaseModel(Model):
+    class Meta:
+        database = database
 
 class Book(BaseModel):
-    author = CharField(null=True)
+    author = CharField(unique=True)
     edition = IntegerField(null=True)
+    my_id = AutoField()
     price = FloatField(null=True)
     title = CharField(null=True)
 
@@ -28,11 +32,14 @@ class Book(BaseModel):
 database.connect()
 
 data_list = list()
-for index in range(10):
-    data_list.append(model_to_dict(Book(id=index, title="三体一---", author="<NAME>")))
+for index in range(100):
+    # data_list.append(Book.create(title="三体222" + str(index)))
+    data_list.append(model_to_dict(Book(title="三体111" + str(index), author="key" + str(index))))
 
 # Book.insert_many(data_list).execute()
-Book.bulk_update(data_list, [Book.title])
-
-
+# Book.bulk_update(data_list, [Book.title])
+Book.insert_many(data_list).on_conflict(
+    conflict_where=[Book.author],
+    preserve=[Book.title],
+).execute()
 # database.execute_sql()
