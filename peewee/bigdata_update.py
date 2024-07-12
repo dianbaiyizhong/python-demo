@@ -14,9 +14,11 @@ class BaseModel(Model):
     class Meta:
         database = database
 
+
 class BaseModel(Model):
     class Meta:
         database = database
+
 
 class Book(BaseModel):
     author = CharField(unique=True)
@@ -34,12 +36,10 @@ database.connect()
 data_list = list()
 for index in range(100):
     # data_list.append(Book.create(title="三体222" + str(index)))
-    data_list.append(model_to_dict(Book(title="三体111" + str(index), author="key" + str(index))))
+    data_list.append(model_to_dict(Book(title="三体" + str(index), edition=2, author="key" + str(index))))
 
-# Book.insert_many(data_list).execute()
-# Book.bulk_update(data_list, [Book.title])
+# author字段一定要设置为unique索引才生效
 Book.insert_many(data_list).on_conflict(
     conflict_where=[Book.author],
-    preserve=[Book.title],
+    preserve=[Book.title, Book.edition],
 ).execute()
-# database.execute_sql()
