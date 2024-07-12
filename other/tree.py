@@ -9,7 +9,7 @@ def create_tree_json(current_level, max_level):
                 "label": f"layer-{current_level + 1}-node-{i}",
                 "children": create_tree_json(current_level + 1, max_level)
             }
-            for i in range(6)  # 每层3个节点
+            for i in range(5)  # 每层3个节点
         ]
         return children
     else:
